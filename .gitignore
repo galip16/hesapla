@@ -1,0 +1,14 @@
+# Node modules
+node_modules/
+
+# Build directory (GitHub Pages için deploy yaparken build klasörü kullanılacak)
+build/
+
+# .env dosyaları (gizli bilgileri içerir)
+.env
+
+# Log dosyaları
+*.log
+
+# Sistem dosyaları
+.DS_Store
