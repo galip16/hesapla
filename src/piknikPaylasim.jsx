@@ -20,46 +20,33 @@ export default function PiknikPaylasim() {
   const calculatePayments = () => {
     const total = people.reduce((acc, person) => acc + person.amount, 0);
     const perPerson = total / people.length;
-    const payments = people.map(person => ({
-      name: person.name,
-      balance: person.amount - perPerson,
-      owes: 0,
-    }));
 
-    // Ödeyenler ve alacaklılar
-    const payees = payments.filter(payment => payment.balance < 0); // Ödeyenler
-    const receivers = payments.filter(payment => payment.balance > 0); // Alacaklılar
+    const debtors = [];
+    const creditors = [];
 
-    let payeeIndex = 0;
-    let receiverIndex = 0;
+    people.forEach((person) => {
+      const balance = person.amount - perPerson;
+      if (balance > 0) creditors.push({ name: person.name, balance });
+      else if (balance < 0) debtors.push({ name: person.name, balance: Math.abs(balance) });
+    });
 
-    // Alacaklı ve ödeyen kişilerin ödeme ilişkisini kur
-    const transactionList = [];
+    const transactions = [];
 
-    while (payeeIndex < payees.length && receiverIndex < receivers.length) {
-      const payee = payees[payeeIndex];
-      const receiver = receivers[receiverIndex];
+    debtors.forEach((debtor) => {
+      while (debtor.balance > 0) {
+        const creditor = creditors[0];
+        const payment = Math.min(debtor.balance, creditor.balance);
 
-      // Ödeyen kişinin ödeyeceği ve alacaklı kişinin alacağı tutarı hesapla
-      const amountToPay = Math.min(Math.abs(payee.balance), receiver.balance);
+        transactions.push(`${debtor.name} ${creditor.name} 'e ${payment.toFixed(2)} TL ödeyecek`);
 
-      payees[payeeIndex].owes += amountToPay;
-      receivers[receiverIndex].owes -= amountToPay;
+        debtor.balance -= payment;
+        creditor.balance -= payment;
 
-      // Ödeme yapılacak işlemi kaydet
-      transactionList.push(`${payee.name} ${receiver.name}'e ${amountToPay.toFixed(2)} TL ödeyecek`);
-
-      // Eğer payee borcunu tamamladıysa bir sonraki ödeyen kişiye geç
-      if (payee.balance + amountToPay >= 0) {
-        payeeIndex++;
+        if (creditor.balance === 0) creditors.shift();
       }
-      // Eğer receiver borcunu tamamladıysa bir sonraki alacaklıya geç
-      if (receiver.balance - amountToPay <= 0) {
-        receiverIndex++;
-      }
-    }
+    });
 
-    setResults(transactionList); // Sonuçları göster
+    setResults(transactions);
   };
 
   return (
