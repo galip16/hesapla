@@ -12,6 +12,18 @@ export default function PiknikPaylasim() {
     setPeople([...people, { name: "", amount: 0 }]);
   };
 
+  const handleRemovePerson = (index) => {
+    const updatedPeople = [...people];
+    updatedPeople.splice(index, 1);
+    setPeople(updatedPeople);
+  };
+
+  const handleReset = () => {
+    setPeople([{ name: "", amount: 0 }]);
+    setResults([]);
+    setAverage(0);
+  };
+
   const handleChange = (index, field, value) => {
     const updatedPeople = [...people];
     updatedPeople[index][field] = field === "amount" ? parseFloat(value) : value;
@@ -35,16 +47,17 @@ export default function PiknikPaylasim() {
     const transactions = [];
 
     debtors.forEach((debtor) => {
-      while (debtor.balance > 0) {
+      while (debtor.balance > 0 && creditors.length > 0) {
         const creditor = creditors[0];
-        const payment = Math.min(debtor.balance, creditor.balance);
+        if (!creditor) break;
 
+        const payment = Math.min(debtor.balance, creditor.balance);
         transactions.push(`${debtor.name} ${creditor.name} 'e ${payment.toFixed(2)} TL ödeyecek`);
 
         debtor.balance -= payment;
         creditor.balance -= payment;
 
-        if (creditor.balance === 0) creditors.shift();
+        if (creditor.balance <= 0) creditors.shift();
       }
     });
 
@@ -68,12 +81,14 @@ export default function PiknikPaylasim() {
               value={person.amount}
               onChange={(e) => handleChange(index, "amount", e.target.value)}
             />
+            <Button onClick={() => handleRemovePerson(index)}>Çıkar</Button>
           </CardContent>
         </Card>
       ))}
 
       <Button onClick={handleAddPerson}>Kişi Ekle</Button>
       <Button onClick={calculatePayments}>Hesapla</Button>
+      <Button onClick={handleReset}>Yenile</Button>
 
       {results.length > 0 && (
         <div className="mt-4">
