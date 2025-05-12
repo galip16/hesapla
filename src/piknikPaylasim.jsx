@@ -6,6 +6,7 @@ import { Button } from "./components/ui/Button";
 export default function PiknikPaylasim() {
   const [people, setPeople] = useState([{ name: "", amount: 0 }]);
   const [results, setResults] = useState([]);
+  const [average, setAverage] = useState(0);
 
   const handleAddPerson = () => {
     setPeople([...people, { name: "", amount: 0 }]);
@@ -20,6 +21,7 @@ export default function PiknikPaylasim() {
   const calculatePayments = () => {
     const total = people.reduce((acc, person) => acc + person.amount, 0);
     const perPerson = total / people.length;
+    setAverage(perPerson);
 
     const debtors = [];
     const creditors = [];
@@ -76,6 +78,7 @@ export default function PiknikPaylasim() {
       {results.length > 0 && (
         <div className="mt-4">
           <h2 className="font-semibold">Sonuçlar:</h2>
+          <p>Kişi başı ortalama ödeme: {average.toFixed(2)} TL</p>
           {results.map((result, index) => (
             <p key={index}>{result}</p>
           ))}
