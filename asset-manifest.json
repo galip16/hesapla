@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/hesapla/static/js/main.4dff10f9.js",
+    "main.js": "/hesapla/static/js/main.b10c48be.js",
     "index.html": "/hesapla/index.html",
-    "main.4dff10f9.js.map": "/hesapla/static/js/main.4dff10f9.js.map"
+    "main.b10c48be.js.map": "/hesapla/static/js/main.b10c48be.js.map"
   },
   "entrypoints": [
-    "static/js/main.4dff10f9.js"
+    "static/js/main.b10c48be.js"
   ]
 }
