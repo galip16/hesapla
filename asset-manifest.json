@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.js": "/piknik-paylasim-hesaplayici/static/js/main.4dff10f9.js",
-    "index.html": "/piknik-paylasim-hesaplayici/index.html",
-    "main.4dff10f9.js.map": "/piknik-paylasim-hesaplayici/static/js/main.4dff10f9.js.map"
+    "main.js": "/hesapla/static/js/main.4dff10f9.js",
+    "index.html": "/hesapla/index.html",
+    "main.4dff10f9.js.map": "/hesapla/static/js/main.4dff10f9.js.map"
   },
   "entrypoints": [
     "static/js/main.4dff10f9.js"
